@@ -12,11 +12,15 @@ export type LogEntry = {
     kind: 'gas',
     remaining: bigint
 } | {
-    kind: 'output_action'
+    kind: 'gas-limit-change',
+    limit: bigint
+} | {
+    kind: 'info',
+    message: string
 }
 
 export function parseVMLogs(logs: string) {
-    let lines = logs.split('\n');
+    let lines = logs.split('\n').map((v) => v.trim()).filter((v) => v.length > 0);
     let res: LogEntry[] = [];
     for (let l of lines) {
         l = l.trim();
@@ -34,10 +38,11 @@ export function parseVMLogs(logs: string) {
         } else if (l.startsWith('stack: ')) {
             let stack = l.substring(7);
             res.push({ kind: 'stack', stack });
-        } else if (l.startsWith('installing an output action')) {
-            res.push({ kind: 'output_action' });
+        } else if (l.startsWith('changing gas limit to ')) {
+            let limit = BigInt(l.substring('changing gas limit to '.length));
+            res.push({ kind: 'gas-limit-change', limit });
         } else {
-            throw new Error('Unknown log line: ' + l);
+            res.push({ kind: 'info', message: l });
         }
     }
     return res;

@@ -57,7 +57,9 @@ export function printCoverage(code: Cell, collector: CoverageCollector) {
             return span(span(``, 'count') + span(``, 'gas') + span('.'.repeat(indent * 2), 'padding') + src, 'line');
         }
         let line = span('.'.repeat(indent * 2), 'padding') + span(src.op, 'opcode');
-        let cov = collector.coverageForCell(src.hash);
+        // console.log(src.hash.toLowerCase());
+        // console.log(src);
+        let cov = collector.coverageForCell(src.hash.toLowerCase());
         let lineClass: string;
         if (cov && cov.offsets.has(src.offset)) {
             let d = cov.offsets.get(src.offset)!!;

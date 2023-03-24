@@ -22,13 +22,14 @@ export function completeCoverage(path: string) {
 
     // Collect coverage
     let collector = new CoverageCollector();
+    let index = 0;
     for (let l of logs) {
+        fs.writeFileSync(path + '/log' + (index++) + '.txt', l);
         try {
             let parsed = parseVMLogs(l);
             collectCoverage({
                 logs: parsed,
-                collector,
-                gasLimit: 1000000000n
+                collector
             });
         } catch (e) {
             console.warn(e);

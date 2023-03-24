@@ -1,3 +1,4 @@
+import { Maybe } from "../utils/maybe";
 import { LogEntry } from "./parseVMLogs";
 
 type CollectedCell = {
@@ -48,11 +49,32 @@ export class CoverageCollector {
 export function collectCoverage(args: {
     collector: CoverageCollector,
     logs: LogEntry[],
-    gasLimit: bigint
+    gasLimit?: Maybe<bigint>
 }) {
+
+    // Determine gas limit
+    let gasLimit = 1000000000n;
+    if (typeof args.gasLimit === 'bigint') {
+        gasLimit = args.gasLimit;
+    } else {
+        // Try to determine gas limit from logs, ignoring the first opcode that usually
+        // is the SETCP 0 and means nothing
+        if (args.logs.length > 4) {
+            if (args.logs[0].kind === 'stack'
+                && args.logs[1].kind === 'cell'
+                && args.logs[2].kind === 'execute'
+                && args.logs[3].kind === 'gas') {
+                if (args.logs[2].command === 'SETCP 0') {
+                    gasLimit = args.logs[3].remaining;
+                }
+            }
+        }
+    }
+
+    // Collect coverage
     let collector = args.collector;
     let logs = args.logs;
-    let gasRemaining = args.gasLimit;
+    let gasRemaining = gasLimit;
     let offset = 0;
     while (offset < logs.length) {
 
@@ -67,10 +89,8 @@ export function collectCoverage(args: {
 
         // Skip implicit RET
         if (cell.kind === 'execute' && cell.command.startsWith('implicit ')) {
-            while (offset < logs.length) {
-                if (logs[offset].kind === 'gas') {
-                    break;
-                }
+            // Skip non-gas
+            while (logs[offset].kind !== 'gas') {
                 offset++;
             }
             let g = logs[offset++];
@@ -92,11 +112,22 @@ export function collectCoverage(args: {
             throw new Error('Expected execute entry, got: ' + cell.kind + " at " + offset);
         }
 
-        // Load gas
-        let gas = logs[offset++];
-        if (gas.kind === 'output_action') { // Skip output action
-            gas = logs[offset++]
+        // Collect all intermediate messages
+        let messages: LogEntry[] = [];
+        while (logs[offset].kind !== 'gas') {
+            messages.push(logs[offset++]);
         }
+
+        // Check for gas limit change
+        let gasLimitChange = messages.find((v) => v.kind === 'gas-limit-change');
+        if (gasLimitChange) {
+            let delta = (gasLimitChange as { limit: bigint }).limit - gasLimit;
+            gasLimit = (gasLimitChange as { limit: bigint }).limit;
+            gasRemaining += delta;
+        }
+
+        // Look for end of execution
+        let gas = logs[offset++];
         if (gas.kind !== 'gas') {
             throw new Error('Expected gas entry, got: ' + cell.kind + " at " + offset);
         }
