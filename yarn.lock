@@ -749,10 +749,10 @@
   dependencies:
     defer-to-connect "^2.0.1"
 
-"@tact-lang/opcode@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@tact-lang/opcode/-/opcode-0.0.4.tgz#87926022a12d75a20b391cf53e342df706c841bc"
-  integrity sha512-I04kAXx5161UD9COZHOJz+MaNQjmLk+Uv8vDyprVdmgV10aFItOoyWaMT2ax09CjBLwGR+x58cjwR2DwFnzs8Q==
+"@tact-lang/opcode@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@tact-lang/opcode/-/opcode-0.0.5.tgz#2a0f003d55ae20d5f9b60694cd8caee367e4e05e"
+  integrity sha512-ha/dOV2XB/XnVNN6u7Zi5Q7yCZh/Jg2ArC+TOUd9Jd47Wa4rovtN3eOyXsyqM82hy3Q+aSHn9JIKonysPtgvfA==
 
 "@tootallnate/once@1":
   version "1.1.2"

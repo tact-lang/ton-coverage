@@ -14,6 +14,12 @@
     "test": "jest --verbose",
     "release": "yarn build && yarn test && yarn release-it --npm.yarn1"
   },
+  "dependencies": {
+    "@tact-lang/opcode": "^0.0.5",
+    "prando": "^6.0.1",
+    "teslabot": "^1.5.0",
+    "zod": "^3.20.2"
+  },
   "devDependencies": {
     "@release-it/keep-a-changelog": "^3.1.0",
     "@types/jest": "^29.2.5",
@@ -43,11 +49,5 @@
         "filename": "CHANGELOG.md"
       }
     }
-  },
-  "dependencies": {
-    "@tact-lang/opcode": "^0.0.4",
-    "prando": "^6.0.1",
-    "teslabot": "^1.5.0",
-    "zod": "^3.20.2"
   }
 }
