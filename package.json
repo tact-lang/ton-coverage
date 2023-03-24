@@ -1,5 +1,5 @@
 {
-  "name": "ton-coverage",
+  "name": "@tact-lang/coverage",
   "version": "0.0.1",
   "main": "dist/index.js",
   "repository": "https://github.com/tact-lang/ton-coverage.git",
