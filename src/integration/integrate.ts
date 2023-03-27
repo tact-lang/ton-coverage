@@ -17,18 +17,19 @@ export function beginCoverage() {
     (globalThis as any).__ton_coverage__ = (src: string) => (globalThis as any).__ton_coverage_storage__.push(src);
 }
 
-export function completeCoverage(path: string) {
+export function exportCoverageLogs() {
     let logs = (globalThis as any).__ton_coverage_storage__ as string[];
+    return logs.map((v) => parseVMLogs(v));
+}
+
+export function completeCoverage(path: string) {
+    let logs = exportCoverageLogs();
 
     // Collect coverage
     let collector = new CoverageCollector();
     for (let l of logs) {
         try {
-            let parsed = parseVMLogs(l);
-            collectCoverage({
-                logs: parsed,
-                collector
-            });
+            collectCoverage({ logs: l, collector });
         } catch (e) {
             console.warn(e);
         }
