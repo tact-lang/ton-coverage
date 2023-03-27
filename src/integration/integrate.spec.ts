@@ -10,6 +10,6 @@ fdescribe('integrate', () => {
         let target = randomAddress('some');
         await treasure.send({ to: target, value: toNano('10') });
         await system.run();
-        completeCoverage(__dirname + '/__testdata__/');
+        completeCoverage(__dirname + '/__testdata__/**/*.boc');
     });
 });

@@ -1,3 +1,4 @@
+import glob from 'glob';
 import { collectCoverage, CoverageCollector } from "../collector/coverage";
 import { parseVMLogs } from "../collector/parseVMLogs";
 import * as fs from 'fs';
@@ -22,7 +23,7 @@ export function exportCoverageLogs() {
     return logs.map((v) => parseVMLogs(v));
 }
 
-export function completeCoverage(path: string) {
+export function completeCoverage(paths: string | (string[])) {
     let logs = exportCoverageLogs();
 
     // Collect coverage
@@ -36,13 +37,13 @@ export function completeCoverage(path: string) {
     }
 
     // Render coverage
-    let files = fs.readdirSync(path);
+    let files = glob.sync(paths);
     for (let f of files) {
         if (f.endsWith('.boc')) {
             try {
-                let code = Cell.fromBoc(fs.readFileSync(path + '/' + f))[0];
+                let code = Cell.fromBoc(fs.readFileSync(f))[0];
                 let coverage = printCoverage(code, collector);
-                fs.writeFileSync(path + '/' + f + '.html', coverage);
+                fs.writeFileSync(f + '.html', coverage);
             } catch (e) {
                 console.warn(e);
             }
