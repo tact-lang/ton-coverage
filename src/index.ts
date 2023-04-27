@@ -14,5 +14,7 @@ export {
 
 export {
     beginCoverage,
-    completeCoverage
+    completeCoverage,
+    exportCoverageLogs,
+    exportCoverageRawLogs
 } from './integration/integrate';

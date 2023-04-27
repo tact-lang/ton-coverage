@@ -71,18 +71,14 @@ export function collectCoverage(args: {
         }
     }
 
+    // Filter logs
+    let logs = args.logs.filter((v) => ["execute", "cell", "gas", "gas-limit-change"].includes(v.kind));
+
     // Collect coverage
     let collector = args.collector;
-    let logs = args.logs;
     let gasRemaining = gasLimit;
     let offset = 0;
     while (offset < logs.length) {
-
-        // Load stack
-        const stack = logs[offset++];
-        if (stack.kind !== 'stack') {
-            throw new Error('Expected stack log entry, got: ' + stack.kind + " at " + offset);
-        }
 
         // Load cell
         let cell = logs[offset++];

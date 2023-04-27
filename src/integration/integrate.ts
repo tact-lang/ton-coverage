@@ -23,6 +23,11 @@ export function exportCoverageLogs() {
     return logs.map((v) => parseVMLogs(v));
 }
 
+export function exportCoverageRawLogs() {
+    let logs = (globalThis as any).__ton_coverage_storage__ as string[];
+    return [...logs];
+}
+
 export function completeCoverage(paths: string | (string[])) {
     let logs = exportCoverageLogs();
 
