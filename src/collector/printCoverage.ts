@@ -1,5 +1,5 @@
 import { decompileAll, Printer } from "@tact-lang/opcode";
-import { Cell } from "ton-core";
+import { Cell } from "@ton/core";
 import { pad, trimIndent } from "../utils/text";
 import { CoverageCollector } from "./coverage";
 

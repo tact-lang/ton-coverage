@@ -5,7 +5,7 @@ This package provides a set of tools to build a code coverage report for TON sma
 ## Installation
 
 ```bash
-yarn add @tact-lang/coverage ton-core ton-crypto
+yarn add @tact-lang/coverage @ton/core @ton/crypto
 ```
 
 ## Usage

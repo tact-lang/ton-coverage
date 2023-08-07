@@ -2,7 +2,7 @@ import glob from 'glob';
 import { collectCoverage, CoverageCollector } from "../collector/coverage";
 import { parseVMLogs } from "../collector/parseVMLogs";
 import * as fs from 'fs';
-import { Cell } from "ton-core";
+import { Cell } from "@ton/core";
 import { printCoverage } from "../collector/printCoverage";
 
 export function beginCoverage() {
