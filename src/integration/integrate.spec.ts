@@ -1,6 +1,6 @@
 import { beginCoverage, completeCoverage } from "./integrate";
 import { ContractSystem, randomAddress } from '@tact-lang/emulator';
-import { toNano } from "ton-core";
+import { toNano } from "@ton/core";
 
 fdescribe('integrate', () => {
     it('should integrate', async () => {

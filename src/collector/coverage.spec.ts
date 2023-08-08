@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Cell } from 'ton-core';
+import { Cell } from '@ton/core';
 import { collectCoverage, CoverageCollector } from './coverage';
 import { parseVMLogs } from './parseVMLogs';
 import { printCoverage } from './printCoverage';
